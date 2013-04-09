@@ -1,6 +1,5 @@
 package br.com.yaw.prime.service;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,8 +14,7 @@ public abstract class AbstractPersistence<T extends AbstractEntity, PK extends N
 	private Class<T> entityClass;
 
     public AbstractPersistence(Class<T> entityClass) {
-    	//ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
-    	this.entityClass = entityClass;//(Class<T>) genericSuperclass.getActualTypeArguments()[0];
+    	this.entityClass = entityClass;
     }
 
     protected abstract EntityManager getEntityManager();

@@ -77,8 +77,8 @@
 			</div>
 		</div>
 		
-		<p:dialog id="dialog" header="Em execução" widgetVar="dlg" dynamic="true" modal="true">  
-	    	<h:outputText value="Aguarde..." />  
+		<p:dialog id="dialog" header="#{msg['dialog.emexecucao.titulo']}" widgetVar="dlg" dynamic="true" modal="true">  
+	    	<h:outputText value="#{msg['dialog.emexecucao.aguarde']}" />  
 		</p:dialog>
 		
 		<p:confirmDialog id="confirmDialog" message="#{msg['excluir.mercadoria.confirma']}"
