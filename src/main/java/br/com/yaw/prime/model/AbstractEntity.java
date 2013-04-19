@@ -5,9 +5,9 @@ import java.io.Serializable;
 /**
  * Estipula um contrato base para as entidades persistentes da aplicação.
  * 
- * <p>Esse contrato é utilizado pelo componente base de persistência: <code>AbstractDAO</code>.</p>
+ * <p>Esse contrato é utilizado pelo componente responsável pelas operações básicas de persistência: <code>AbstractPersistence</code>.</p>
  * 
- * @see br.com.yaw.sjpac.dao.AbstractDAO
+ * @see br.com.yaw.prime.service.AbstractPersistence
  * 
  * @author YaW Tecnologia
  */
@@ -18,5 +18,5 @@ public interface AbstractEntity extends Serializable {
 	 * 		   Caso o objeto ainda não tenha sido persistido, deve retornar <code>null</code>.
 	 */
 	public Number getId();
-	
+
 }

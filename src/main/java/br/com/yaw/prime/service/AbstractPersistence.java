@@ -9,17 +9,23 @@ import javax.persistence.criteria.Root;
 
 import br.com.yaw.prime.model.AbstractEntity;
 
+/**
+ * Classe resolve os métodos básicos de cadastro (CRUD) com API da <code>JPA</code>.
+ * 
+ * @author YaW Tecnologia
+ */
 public abstract class AbstractPersistence<T extends AbstractEntity, PK extends Number> {
 
+	/**
+	 * Classe da entidade, necessário para o método <code>EntityManager.find</code>.
+         */
 	private Class<T> entityClass;
+	
+	public AbstractPersistence(Class<T> entityClass) {
+		this.entityClass = entityClass;
+	}
 
-    public AbstractPersistence(Class<T> entityClass) {
-    	this.entityClass = entityClass;
-    }
-
-    protected abstract EntityManager getEntityManager();
-
-    public T save(T e) {
+	public T save(T e) {
 		if (e.getId() != null)
 			return getEntityManager().merge(e);
 		else {
@@ -28,34 +34,39 @@ public abstract class AbstractPersistence<T extends AbstractEntity, PK extends N
 		}
 	}
 
-    public void remove(T entity) {
-        getEntityManager().remove(getEntityManager().merge(entity));
-    }
+	public void remove(T entity) {
+		getEntityManager().remove(getEntityManager().merge(entity));
+	}
 
-    public T find(PK id) {
-        return getEntityManager().find(entityClass, id);
-    }
+	public T find(PK id) {
+		return getEntityManager().find(entityClass, id);
+	}
 
-    public List<T> findAll() {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        return getEntityManager().createQuery(cq).getResultList();
-    }
+	public List<T> findAll() {
+		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+		cq.select(cq.from(entityClass));
+		return getEntityManager().createQuery(cq).getResultList();
+	}
 
-    public List<T> findRange(int[] range) {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        cq.select(cq.from(entityClass));
-        Query q = getEntityManager().createQuery(cq);
-        q.setMaxResults(range[1] - range[0]);
-        q.setFirstResult(range[0]);
-        return q.getResultList();
-    }
+	public List<T> findRange(int[] range) {
+		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+		cq.select(cq.from(entityClass));
+		Query q = getEntityManager().createQuery(cq);
+		q.setMaxResults(range[1] - range[0]);
+		q.setFirstResult(range[0]);
+		return q.getResultList();
+	}
 
-    public int count() {
-        CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
-        Root<T> rt = cq.from(entityClass);
-        cq.select(getEntityManager().getCriteriaBuilder().count(rt));
-        Query q = getEntityManager().createQuery(cq);
-        return ((Long) q.getSingleResult()).intValue();
-    }
+	public int count() {
+		CriteriaQuery cq = getEntityManager().getCriteriaBuilder().createQuery();
+		Root<T> rt = cq.from(entityClass);
+		cq.select(getEntityManager().getCriteriaBuilder().count(rt));
+		Query q = getEntityManager().createQuery(cq);
+		return ((Long) q.getSingleResult()).intValue();
+	}
+
+	/**
+	 * Exige a definição do <code>EntityManager</code> responsável pelas operações de persistência.
+	 */
+	protected abstract EntityManager getEntityManager();
 }
